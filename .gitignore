@@ -8,6 +8,7 @@ src/npm_module
 src/.expo
 /.pnp
 .pnp.js
+/.vscode
 
 # testing
 /coverage

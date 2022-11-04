@@ -2,8 +2,10 @@
 
 # dependencies
 /node_modules
+/.expo
 src/node_modules
 src/npm_module
+src/.expo
 /.pnp
 .pnp.js
 

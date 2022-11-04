@@ -1,103 +1,96 @@
-# React BitClout Login
+# React Deso Login
 
-This project is based on [mubashariqbal/login-with-bitclout](https://github.com/mubashariqbal/login-with-bitclout) repository.
+This project is based on  [BogdanDidenko/react-bitclout-login](https://github.com/BogdanDidenko/react-bitclout-login) which was based on [mubashariqbal/login-with-bitclout](https://github.com/mubashariqbal/login-with-bitclout) repository.
 
-### Developed by [@transhumanist](https://bitclout.com/u/transhumanist)
-[![https://bitclout.com/u/transhumanist](public/logo96.png)](https://bitclout.com/u/transhumanist)
-
-![ui](public/ui.png)
 
 ## Instalation
 
 #### npm install
 ```shell
-npm i react-bitclout-login --save
-```
-#### yarn install
-```shell
-yarn add react-bitclout-login
+npm install
 ```
 
 ### JWT
 If you only want to verify Bitclout users, JWT token would be enough for this goal.
 Storing it in the database is safer than encryptedSeedHex(with high access level) because JWT can't sign Bitclout transactions. You can validate user publicKey by JWT token. See an example here:
-https://docs.bitclout.com/devs/identity-api#validation-in-go
+https://docs.deso.org/devs/identity-api#validation-in-go
 
-#### [NEW] [Node.js JWT validation implementation](https://github.com/mattetre/bitclout-jwt-validate) by [@mattetre](https://bitclout.com/u/mattetre)
+#### [NEW] by @melzubeir
+
+3rd party dependencies that were unnecessary were removed and replaced by vanilla react native
+alternatives, like @material-ui/*
+
 
 ## How to use
 
 ```js
-import './App.css';
-import React from "react";
-import BitcloutLogin from "react-bitclout-login";
-import { makeStyles } from '@material-ui/core/styles';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
+import { StatusBar } from 'expo-status-bar';
+import Dialog from 'react-native-dialog';
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import MyDesoLogin from './components/MyDesoLogin';
 
-const useStyles = makeStyles((theme) => ({
-  loginButton: {
-    backgroundColor: '#FFFFFF',
-    textTransform: 'none'
-  }
-}));
 
 function App() {
-  const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
+  const [response, setResponse] = useState('');
   const responseClout = (response) => {
-    console.log(response)
-    /**
-    {
-        "hasExtraText": false,
-        "publicKey": USER_publicKey,
-        "btcDepositAddress": USER_btcDepositAddress,
-        "encryptedSeedHex": USER_encryptedSeedHex,
-        "network": "mainnet",
-        "accessLevel":  USER_accessLevel,
-        "accessLevelHmac": USER_accessLevelHmac,
-        "jwt": USER_jwt
-    }
-    */
+    setResponse(JSON.stringify(response, null, 2));
+    setOpen(true);
   }
-  /**
-   * Users can control access level on a per-domain and per-account basis.
-   * Read more:
-   * https://docs.bitclout.com/devs/identity-api#access-levels
-  */
+  console.log('func App(): response:', response);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const accessLevel = 4;
-  /**
-   * JWT requires access leve 2+
-   * Read more:
-   * https://github.com/bitclout/identity/blob/main/src/app/identity.service.ts#L115
-   * https://github.com/bitclout/identity/blob/main/src/types/identity.ts#L31
-   */
   const JWT = true;
+
   return (
-    <div className="App">
-      <BitcloutLogin
-        accessLevel={accessLevel}
-        onSuccess={responseClout}
-        onFailure={responseClout}
-        JWT={JWT}
-        customization={{className: classes.loginButton}}
-        // customIcon={<LockOpenIcon/>}
-      />
-    </div>
+    <>
+      <View style={styles.container}>
+        <MyDesoLogin
+          accessLevel={accessLevel}
+          onSuccess={responseClout}
+          onFailure={responseClout}
+          JWT={JWT} />
+        <Dialog.Container open={open}
+          onClose={handleClose}>
+          <Dialog.Title>Auth Response</Dialog.Title>
+          <Dialog.Description><pre>{response}</pre></Dialog.Description>
+          <Dialog.Button onClick={handleClose} >
+            Close
+          </Dialog.Button>
+        </Dialog.Container>
+      </View>
+
+      <StatusBar style="auto" />
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default App;
 ```
 
 ## Repository install:
 ```shell
-git clone git@github.com:BogdanDidenko/react-bitclout-login.git
-cd react-bitclout-login
+git clone git@github.com:melzubeir/react-deso-login.git
+cd react-deso-login
 npm install
-npm start
+expo start
 ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Runs the app through emulator.
 
 ## Security
 This code may contain vulnerabilities. I ask you to help make it better. Feel free to add issues and pull requests.

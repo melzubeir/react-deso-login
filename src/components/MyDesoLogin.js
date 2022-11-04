@@ -115,7 +115,7 @@ const useStyles = StyleSheet.create({
   }
 });
 
-const DesoLogin = (props) => {
+const MyDesoLogin = (props) => {
   const {accessLevel, onSuccess, onFailure, JWT, ...other} = props
 
 	const handleLogin = () => {
@@ -136,10 +136,10 @@ const DesoLogin = (props) => {
   );
 }
 
-DesoLogin.propTypes = {
+MyDesoLogin.propTypes = {
   accessLevel: PropTypes.number.isRequired,
   onSuccess: PropTypes.func.isRequired,
   onFailure: PropTypes.func.isRequired,
   JWT: PropTypes.bool,
 }
-export default DesoLogin
+export default MyDesoLogin

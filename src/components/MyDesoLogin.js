@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import Button from './ui/Button';
 import PropTypes from "prop-types";
 
@@ -79,7 +78,7 @@ function initLogin(accessLevel, JWT) {
     window.addEventListener('message', message => {
       console.log('window.addEVentListener');
       const { data: { id: id, method: method, service: service, payload: payload } } = message;
-      if (service !== "identity"){ console.log('service not identity'); return };
+      if (service !== "identity") { console.log('service not identity'); return };
 
       if (method == 'initialize') {
         console.log('method == initialize')
@@ -106,33 +105,24 @@ function initLogin(accessLevel, JWT) {
   });
 }
 
-
-
-const useStyles = StyleSheet.create({
-  button: {
-    backgroundColor: '#FFFFFF',
-    textTransform: 'none'
-  }
-});
-
 const MyDesoLogin = (props) => {
-  const {accessLevel, onSuccess, onFailure, JWT, ...other} = props
+  const { accessLevel, onSuccess, onFailure, JWT, ...other } = props
 
-	const handleLogin = () => {
+  const handleLogin = () => {
     console.log('const handleLogin')
-		initLogin(accessLevel, JWT).then(e=>{
-			onSuccess(e);
-		}).catch(e=>{
+    initLogin(accessLevel, JWT).then(e => {
+      onSuccess(e);
+    }).catch(e => {
       onFailure(e);
     });
-	}
-	return (
-        <Button
-          variant="contained"
-          onPress={handleLogin}
-        >
-          {"Sign in with Deso"}
-        </Button>
+  }
+  return (
+    <Button
+      variant="contained"
+      onPress={handleLogin}
+    >
+      {"Sign in with Deso"}
+    </Button>
   );
 }
 
